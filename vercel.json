@@ -1,0 +1,25 @@
+{
+  "framework": "nextjs",
+  "buildCommand": "npm run build",
+  "devCommand": "npm run dev",
+  "installCommand": "npm install",
+  "regions": ["iad1"],
+  "functions": {
+    "src/app/api/**/*": {
+      "runtime": "nodejs20.x",
+      "memory": 256,
+      "maxDuration": 10
+    }
+  },
+  "crons": [
+    // Placeholder cron schedules for PR-23 reference
+    // {
+    //   "path": "/api/cron/cleanup-expired",
+    //   "schedule": "0 * * * *"
+    // },
+    // {
+    //   "path": "/api/cron/sync-dns",
+    //   "schedule": "0 */6 * * *"
+    // }
+  ]
+}

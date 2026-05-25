@@ -6,7 +6,7 @@
   "regions": ["iad1"],
   "functions": {
     "src/app/api/**/*": {
-      "runtime": "",
+      "runtime": "1.0.0",
       "memory": 256,
       "maxDuration": 10
     }

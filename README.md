@@ -34,6 +34,66 @@ Open [http://localhost:3000](http://localhost:3000) to view the homepage.
 - `npm run lint` - Run ESLint
 - `npm run typecheck` - Run TypeScript type checking
 
+## Database Setup
+
+### Prerequisites
+- Supabase account with a PostgreSQL project
+- Supabase CLI installed (`npm install -g supabase`)
+
+### Run Migrations
+
+1. **Link your local project to Supabase:**
+   ```bash
+   npx supabase link --project-ref <your-project-ref>
+   ```
+
+2. **Push the migration to your database:**
+   ```bash
+   npx supabase db push
+   ```
+   
+   Or apply the migration SQL manually:
+   - Copy the contents of `supabase/migrations/0001_init.sql`
+   - Run it in the Supabase SQL editor or via psql
+
+3. **Seed the database (optional):**
+   ```bash
+   # Run seed SQL in Supabase SQL editor
+   # Contents are in supabase/seed.sql
+   ```
+
+### Migration Files
+
+- `supabase/migrations/0001_init.sql` - Complete database schema with:
+  - All tables (profiles, otp_codes, tlds, domains, dns_records, etc.)
+  - RLS (Row Level Security) enabled on all tables
+  - Triggers for auto-updated timestamps
+  - Helper functions (generate_customer_id, etc.)
+
+- `supabase/seed.sql` - Initial data:
+  - 3 TLDs (sites.bd, esite.top, esite.in)
+  - 3 sample banners
+  - Admin user setup (manual step required)
+
+### Tables Overview
+
+| Table | Description |
+|-------|-------------|
+| profiles | User profiles with customer_id, status |
+| otp_codes | OTP for registration/password reset |
+| tlds | Parent domain registry (multi-TLD root) |
+| domains | Claimed subdomains |
+| dns_records | DNS records for domains |
+| txt_review_queue | Escalated TXT records |
+| cart_items | Shopping cart |
+| orders | User orders |
+| invoices | Order invoices |
+| services | Hosting services |
+| tickets | Support tickets |
+| ticket_messages | Ticket messages |
+| banners | Dashboard banners |
+| audit_log | System audit log |
+
 ## Multi-Domain Architecture
 
 This project supports multiple parent domains (TLDs) for subdomain registration. The TLDs are configured in `src/config/domains.json`.

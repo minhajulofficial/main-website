@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "cf:verify": "node scripts/verify-cloudflare.mjs"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.5.1",

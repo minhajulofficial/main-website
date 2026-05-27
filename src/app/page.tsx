@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import Link from "next/link";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { library } from "@fortawesome/fontawesome-svg-core";
@@ -39,6 +39,7 @@ import {
   faLinkedinIn,
   faGithub,
 } from "@fortawesome/free-brands-svg-icons";
+import { getEnabledTlds } from "@/lib/domains/registry";
 
 // Add all icons to the library
 library.add(
@@ -49,12 +50,10 @@ library.add(
   faFacebookF, faTwitter, faLinkedinIn, faGithub
 );
 
-// TLD options for domain check dropdown
-const TLD_OPTIONS = [
-  { id: "sites-bd", name: ".sites.bd" },
-  { id: "esite-top", name: ".esite.top" },
-  { id: "esite-in", name: ".esite.in" },
-];
+const TLD_OPTIONS = getEnabledTlds().map((tld) => ({
+  id: tld.id,
+  name: `.${tld.name}`,
+}));
 
 function smoothScrollTo(target: string, offset = 80) {
   if (typeof window === "undefined") return;
@@ -166,7 +165,8 @@ function HeroSection() {
 // Domain Check Section
 function DomainCheckSection() {
   const [subdomain, setSubdomain] = useState("");
-  const [selectedTld, setSelectedTld] = useState(TLD_OPTIONS[0]);
+  const defaultTld = useMemo(() => TLD_OPTIONS[0], []);
+  const [selectedTld, setSelectedTld] = useState(defaultTld);
 
   const handleCheck = () => {
     if (!subdomain.trim()) return;

@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { fromCloudflareError, getDnsContext, requireAdminUser, errorJson } from './_utils';
+import { fromCloudflareError, getDnsContext, requireAdminUser, errorJson } from '../_utils';
 
 export async function GET(_: NextRequest, { params }: { params: Promise<{ tldId: string }> }) {
   const { tldId } = await params;
@@ -7,8 +7,7 @@ export async function GET(_: NextRequest, { params }: { params: Promise<{ tldId:
   const ctx = await getDnsContext(tldId);
   if (!ctx) return errorJson('not_found', 'TLD not found or disabled', 404);
   try {
-    console.info(`[api dns ${tldId}] list zone records`);
-    const data = await ctx.client.listDnsRecords({ per_page: 20, page: 1 });
+    const data = await ctx.client.getZoneInfo();
     return NextResponse.json({ data });
   } catch (err) {
     return fromCloudflareError(err, tldId);
